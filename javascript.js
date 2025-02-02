@@ -1,4 +1,5 @@
 function getComputerChoice() {
+  // Math.random() is a js method that returns a number greater than or equal to zero and strictly less than 1
   let randomNumber = Math.random();
 
   if (randomNumber <= 0.3) {
@@ -12,8 +13,14 @@ function getComputerChoice() {
 
 function getHumanChoice() {
   let humanChoice = prompt("Enter rock, paper or scissors");
-  return humanChoice;
+  // !humanChoice return true if user enters an empty string or canceled the input
+  if (!humanChoice) { 
+    alert("ERROR!");
+  } else {
+    return humanChoice;
+  }
 }
+
 
 let humanScore = 0;
 let computerScore = 0;
@@ -26,36 +33,34 @@ function playGame() {
   function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
     if (humanChoice === computerChoice) {
-      alert(`it\'s a tie!, human score: ${humanScore} | computer score: ${computerScore}.`);
+      ++ humanScore;
+      ++ computerScore;
+      alert(`it\'s a tie!\n\nyour score ${humanScore} | computer score ${computerScore}.`);
     } else if (
       (humanChoice === "rock" && computerChoice === "scissors") 
       || (humanChoice === "paper" && computerChoice === "rock") 
       || (humanChoice === "scissors" && computerChoice === "paper")) {
       ++ humanScore;
-      alert(`You Win! ${humanChoice} beats ${computerChoice}, human score: ${humanScore} | computer score: ${computerScore}.`);
+      alert(`You Win! ${humanChoice} beats ${computerChoice}\n\nyour score ${humanScore} | computer score ${computerScore}.`);
     } else {
       ++ computerScore;
-      alert(`You Lose! ${computerChoice} beats ${humanChoice}, human score: ${humanScore} | computer score: ${computerScore}.`);
+      alert(`You Lose! ${computerChoice} beats ${humanChoice}\n\nyour score ${humanScore} | computer score ${computerScore}.`);
     }
   }
   playRound(humanSelection, computerSelection);
 }
 
-
-function gameWinner () {
+for (let i;; i++) {
   playGame();
-  playGame();
-  playGame();
-  playGame();
-  playGame();
-
-  if (humanScore > computerScore) {
-    alert(`You Win the Game! human score is: ${humanScore} | computer score is: ${computerScore}.` );
-  } else if (humanScore < computerScore) {
-    alert(`You Lose the Game! human score is: ${humanScore} | computer score is: ${computerScore}.` );
+  if (humanScore === 5) {
+    alert(`You Win the Game!`);
+    break;
+  } else if (computerScore === 5) {
+    alert(`You Lose the Game!` );
+    break;
   } else {
-    alert(`No winner, No loser! human score is: ${humanScore} | computer score is: ${computerScore}.` );
+    continue;
   }
 }
 
-gameWinner();
+
