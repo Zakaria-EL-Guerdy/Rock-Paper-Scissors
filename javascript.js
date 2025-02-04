@@ -12,12 +12,21 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  let humanChoice = prompt("Enter rock, paper or scissors");
+  let humanChoice = prompt("Enter rock, paper, or scissors");
+
   // !humanChoice return true if user enters an empty string or canceled the input
   if (!humanChoice) { 
-    alert("ERROR!");
+    alert("ERROR! You must enter a choice.");
+    return getHumanChoice(); // Ask again if input is invalid
+  }
+
+  humanChoice = humanChoice.toLowerCase(); 
+
+  if (["rock", "paper", "scissors"].includes(humanChoice)) {
+    return humanChoice; 
   } else {
-    return humanChoice;
+    alert("Invalid choice! Enter rock, paper, or scissors.");
+    return getHumanChoice(); // Ask again if input is incorrect
   }
 }
 
@@ -25,42 +34,34 @@ function getHumanChoice() {
 let humanScore = 0;
 let computerScore = 0;
 
-function playGame() {
+function playRound(humanChoice, computerChoice) {
 
-  const humanSelection = getHumanChoice();
-  const computerSelection = getComputerChoice();
-
-  function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toLowerCase();
-    if (humanChoice === computerChoice) {
-      ++ humanScore;
-      ++ computerScore;
-      alert(`it\'s a tie!\n\nyour score ${humanScore} | computer score ${computerScore}.`);
-    } else if (
-      (humanChoice === "rock" && computerChoice === "scissors") 
-      || (humanChoice === "paper" && computerChoice === "rock") 
-      || (humanChoice === "scissors" && computerChoice === "paper")) {
-      ++ humanScore;
-      alert(`You Win! ${humanChoice} beats ${computerChoice}\n\nyour score ${humanScore} | computer score ${computerScore}.`);
-    } else {
-      ++ computerScore;
-      alert(`You Lose! ${computerChoice} beats ${humanChoice}\n\nyour score ${humanScore} | computer score ${computerScore}.`);
-    }
-  }
-  playRound(humanSelection, computerSelection);
-}
-
-for (let i;; i++) {
-  playGame();
-  if (humanScore === 5) {
-    alert(`You Win the Game!`);
-    break;
-  } else if (computerScore === 5) {
-    alert(`You Lose the Game!` );
-    break;
+  if (humanChoice === computerChoice) {
+    alert(`Round ${i + 1}\n\nit\'s a tie! you both choses ${humanChoice}\n\nscore: you ${humanScore} | computer ${computerScore}.`);
+  } else if (
+    (humanChoice === "rock" && computerChoice === "scissors") 
+    || (humanChoice === "paper" && computerChoice === "rock") 
+    || (humanChoice === "scissors" && computerChoice === "paper")) {
+    ++ humanScore;
+    alert(`Round ${i + 1}\n\nYou Win! ${humanChoice} beats ${computerChoice}\n\nscore: you ${humanScore} | computer ${computerScore}.`);
   } else {
-    continue;
+    ++ computerScore;
+    alert(`Round ${i + 1}\n\nYou Lose! ${computerChoice} beats ${humanChoice}\n\nscore: you ${humanScore} | computer ${computerScore}.`);
   }
 }
 
+let i = 0;
+while (i < 5) {
+  let humanSelection = getHumanChoice();
+  let computerSelection = getComputerChoice();
+  playRound(humanSelection, computerSelection);
+  i++;
+}
 
+if (humanScore === computerScore) {
+  alert(`It\'s a tie!\n\nFinal score: you ${humanScore} | computer ${computerScore}`);
+} else if (humanScore > computerScore){
+  alert(`You win the game\n\nFinal score: you ${humanScore} | computer ${computerScore}`);
+} else {
+  alert(`You lose the game\n\nFinal score: you ${humanScore} | computer ${computerScore}`);
+}
