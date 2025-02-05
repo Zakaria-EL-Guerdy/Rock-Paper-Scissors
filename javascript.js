@@ -1,3 +1,6 @@
+let humanScore = 0;
+let computerScore = 0;
+
 function getComputerChoice() {
   // Math.random() is a js method that returns a number greater than or equal to zero and strictly less than 1
   let randomNumber = Math.random();
@@ -11,58 +14,39 @@ function getComputerChoice() {
   }
 }
 
-let humanScore = 0;
-let computerScore = 0;
-
-const computerSelection = getComputerChoice();
-
 function playRound(humanChoice, computerChoice) {
-  humanChoice = humanChoice.toLowerCase();
-
   if (humanChoice === computerChoice) {
-    ++ humanScore;
-    ++ computerScore;
-    return `it\'s a tie!\nyour score ${humanScore} | computer score ${computerScore}.`;
+    return `\nit\'s a tie! you both choses ${humanChoice}\n\nscore: you ${humanScore} | computer ${computerScore}.`;
   } else if (
     (humanChoice === "rock" && computerChoice === "scissors") 
     || (humanChoice === "paper" && computerChoice === "rock") 
     || (humanChoice === "scissors" && computerChoice === "paper")) {
     ++ humanScore;
-    return `You Win! ${humanChoice} beats ${computerChoice}\nyour score ${humanScore} | computer score ${computerScore}.`;
+    return `\nYou Win! ${humanChoice} beats ${computerChoice}\n\nscore: you ${humanScore} | computer ${computerScore}.`;
   } else {
     ++ computerScore;
-    return `You Lose! ${computerChoice} beats ${humanChoice}\nyour score ${humanScore} | computer score ${computerScore}.`;
+    return `\nYou Lose! ${computerChoice} beats ${humanChoice}\n\nscore: you ${humanScore} | computer ${computerScore}.`;
   }
 }
 
 
+const buttons = document.querySelector('#buttons');
+buttons.addEventListener('click', e => {
+  let humanSelection = e.target.id;
+  let computerSelection = getComputerChoice();
+  results.innerText = playRound(humanSelection, computerSelection);
+
+  if (humanScore === 5) {
+    alert('You Win the Game!');
+  } else if (computerScore === 5) {
+    alert('You Lose the Game!');
+  } else if (humanScore === 5 && computerScore === 5) {
+    alert('it\'s a tie!');
+  }
+});
+humanScore = 0;
+computerScore = 0;
 const body = document.querySelector('body');
-const results = document.querySelector('div');
-
-// body.addEventListener('click', e => {
-//   const humanSelection = e.target.id;
-//   results.innerText = playRound(humanSelection, computerSelection);
-// });
-
-const rock = document.querySelector('#rock');
-rock.addEventListener('click', e => {
-  const humanSelection = e.target.id;
-  results.innerText = playRound(humanSelection, computerSelection);
-})
-
-const paper = document.querySelector('#paper');
-paper.addEventListener('click', e => {
-  const humanSelection = e.target.id;
-  results.innerText = playRound(humanSelection, computerSelection);
-})
-
-const scissors = document.querySelector('#scissors');
-scissors.addEventListener('click', e => {
-  const humanSelection = e.target.id;
-  results.innerText = playRound(humanSelection, computerSelection);
-})
-
+const results = document.querySelector('#results');
 
 body.appendChild(results);
-
-
